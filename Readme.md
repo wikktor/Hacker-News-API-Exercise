@@ -1,4 +1,13 @@
-Assumptions:
+# Hacker-News-API-Exercise
+
+
+**How to run the application**
+- Clone repository
+- Open HackerNewsBestStoriesService.sln in Visual Studio with .NET 7 installed
+- Build and run HackerNewsBestStoriesService project
+- Parameters in appsettings.json can be used to configure timeout and concurrency level.
+
+**Assumptions**
  - Best stories ranking and scores change slowly, and we do not need to take all data from single point in time
  - Worst result of cashing each item independently is could be that list of best stories is not consistant with scores in them
    This would result with higher ranking story to have lower score than one afther that. 
@@ -8,8 +17,7 @@ Assumptions:
  - LazyCache instead of memoryCache used to guarantee minimal number of requests to HackerNewsAPI
 
 
-
-Enhancements or changes you would make, given the time:
+**Enhancements or changes you would make, given the time**
 - Error handling is to be implemented (There is Polly added  - so risk should be low)
 - Put more description on controler and model for better OPEN API 
 - Split to multiple projects ( Dto and service seperatly)

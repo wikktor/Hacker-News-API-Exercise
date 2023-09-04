@@ -1,5 +1,6 @@
 using HackerNewsBestStoriesService.HackerNewsClient;
 using LazyCache;
+using Microsoft.Extensions.DependencyInjection;
 using Polly;
 using Polly.Contrib.WaitAndRetry;
 using Services;
@@ -14,7 +15,11 @@ builder.Services.AddControllers();
 builder.Services.AddSingleton<IHackerNewsService, HackerNewsService> ();
 builder.Services.AddSingleton<HackerNewsClient> ();
 builder.Services.AddSingleton<IHackerNewsClient> (
-    x => new CachedHackerNewsClient(x.GetRequiredService<HackerNewsClient>(), x.GetRequiredService<IAppCache>()));
+    x =>
+    {
+        var expirationTimeoutMinutes = builder.Configuration.GetValue<int>("HackerNewsCacheExpirationTimeoutMinutes");
+        return new CachedHackerNewsClient(x.GetRequiredService<HackerNewsClient>(), x.GetRequiredService<IAppCache>(), expirationTimeoutMinutes);
+    });
 builder.Services.AddHttpClient("HackerNews", client =>
 {
     var baseAddress = builder.Configuration.GetValue<string>("HackerNewsBaseAddress");
